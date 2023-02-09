@@ -53,6 +53,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
               hintText: "Search...",
               hintStyle:
                   TextStyle(color: widget.searchHintColor ?? Colors.white)),
+          onSubmitted: (value) => widget.searchCallBack(value),
         ),
         actions: <Widget>[
           IconButton(
