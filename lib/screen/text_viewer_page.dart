@@ -13,6 +13,12 @@ class TextViewerPage extends StatefulWidget {
   ///Boolean flag to show search appbar or not
   final bool showSearchAppBar;
 
+  /// Color for the hint in search appbar
+  final Color? searchHintColor;
+
+  /// Color for the input text search appbar
+  final Color? searchTextColor;
+
   ///EdgeInsets for the content
   final EdgeInsets? contentPadding;
 
@@ -23,6 +29,8 @@ class TextViewerPage extends StatefulWidget {
     required this.textViewer,
     this.showSearchAppBar = false,
     this.leading,
+    this.searchHintColor,
+    this.searchTextColor,
     this.contentPadding,
   }) : super(key: key);
 
@@ -143,6 +151,8 @@ class _TextViewerPageState extends State<TextViewerPage> {
             }
           }
         },
+        searchHintColor: widget.searchHintColor,
+        searchTextColor: widget.searchTextColor,
       );
 
   Future<String> _getContentFromPath() async {

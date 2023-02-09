@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? leading;
   final Function(String value) searchCallBack;
-  const SearchAppBar({Key? key, this.leading, required this.searchCallBack})
+  final Color? searchHintColor;
+  final Color? searchTextColor;
+  const SearchAppBar(
+      {Key? key,
+      this.leading,
+      required this.searchCallBack,
+      this.searchHintColor,
+      this.searchTextColor})
       : super(key: key);
 
   @override
@@ -35,13 +42,14 @@ class _SearchAppBarState extends State<SearchAppBar> {
         leading: widget.leading,
         title: TextField(
           controller: searchController,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: widget.searchTextColor ?? Colors.white,
           ),
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
               //prefixIcon: Icon(Icons.search, color: Colors.white),
               hintText: "Search...",
-              hintStyle: TextStyle(color: Colors.white)),
+              hintStyle:
+                  TextStyle(color: widget.searchHintColor ?? Colors.white)),
         ),
         actions: <Widget>[
           IconButton(
