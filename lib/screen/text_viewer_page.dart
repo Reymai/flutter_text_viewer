@@ -13,6 +13,9 @@ class TextViewerPage extends StatefulWidget {
   ///Boolean flag to show search appbar or not
   final bool showSearchAppBar;
 
+  ///EdgeInsets for the content
+  final EdgeInsets? contentPadding;
+
   ///leading icon
   final Widget? leading;
   const TextViewerPage({
@@ -20,6 +23,7 @@ class TextViewerPage extends StatefulWidget {
     required this.textViewer,
     this.showSearchAppBar = false,
     this.leading,
+    this.contentPadding,
   }) : super(key: key);
 
   @override
@@ -70,50 +74,53 @@ class _TextViewerPageState extends State<TextViewerPage> {
     return Scaffold(
       appBar: widget.showSearchAppBar ? _getSearchAppBar() : null,
       body: SafeArea(
-        child: FutureBuilder<String>(
-          future: _getContentFromPath(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (searchValue.isNotEmpty) ...[
-                    _getSearchResultCount(),
-                  ],
-                  Expanded(
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      child: TextContent(
-                        text: snapshot.data!,
-                        highlightText:
-                            searchValue.isNotEmpty ? searchValue : null,
-                        highlightColor: widget.textViewer.highLightColor,
-                        focusColor: widget.textViewer.highLightColor,
-                        ignoreCase: widget.textViewer.ignoreCase,
-                        highlightStyle: widget.textViewer.highLightTextStyle,
-                        focusStyle: widget.textViewer.focusTextStyle,
-                        keys: _keys,
-                        focusKeyIndex: _focusKeyIndex,
+        child: Padding(
+          padding: widget.contentPadding ?? const EdgeInsets.all(8.0),
+          child: FutureBuilder<String>(
+            future: _getContentFromPath(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (searchValue.isNotEmpty) ...[
+                      _getSearchResultCount(),
+                    ],
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        child: TextContent(
+                          text: snapshot.data!,
+                          highlightText:
+                              searchValue.isNotEmpty ? searchValue : null,
+                          highlightColor: widget.textViewer.highLightColor,
+                          focusColor: widget.textViewer.highLightColor,
+                          ignoreCase: widget.textViewer.ignoreCase,
+                          highlightStyle: widget.textViewer.highLightTextStyle,
+                          focusStyle: widget.textViewer.focusTextStyle,
+                          keys: _keys,
+                          focusKeyIndex: _focusKeyIndex,
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //_getPreviousPage(),
-                      _getPreviousSearch(),
-                      _getNextSearch(),
-                      //_getNextPage(),
-                    ],
-                  )
-                ],
-              );
-            }
-            if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //_getPreviousPage(),
+                        _getPreviousSearch(),
+                        _getNextSearch(),
+                        //_getNextPage(),
+                      ],
+                    )
+                  ],
+                );
+              }
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
+          ),
         ),
       ),
     );
