@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? leading;
+  final bool showBackButton;
   final Function(String value) searchCallBack;
   final Color? searchHintColor;
   final Color? searchTextColor;
   const SearchAppBar(
       {Key? key,
       this.leading,
+      required this.showBackButton,
       required this.searchCallBack,
       this.searchHintColor,
       this.searchTextColor})
@@ -40,6 +42,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
     return AppBar(
         centerTitle: true,
         leading: widget.leading,
+        automaticallyImplyLeading: widget.showBackButton,
         title: TextField(
           controller: searchController,
           style: TextStyle(

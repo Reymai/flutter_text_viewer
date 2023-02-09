@@ -13,6 +13,9 @@ class TextViewerPage extends StatefulWidget {
   ///Boolean flag to show search appbar or not
   final bool showSearchAppBar;
 
+  ///Boolean flag to show back button in appbar or not
+  final bool showBackButton;
+
   /// Color for the hint in search appbar
   final Color? searchHintColor;
 
@@ -25,14 +28,15 @@ class TextViewerPage extends StatefulWidget {
   ///leading icon
   final Widget? leading;
   const TextViewerPage({
-    Key? key,
+    super.key,
     required this.textViewer,
     this.showSearchAppBar = false,
+    this.showBackButton = false,
     this.leading,
     this.searchHintColor,
     this.searchTextColor,
     this.contentPadding,
-  }) : super(key: key);
+  });
 
   @override
   State<TextViewerPage> createState() => _TextViewerPageState();
@@ -136,6 +140,7 @@ class _TextViewerPageState extends State<TextViewerPage> {
 
   _getSearchAppBar() => SearchAppBar(
         leading: widget.leading,
+        showBackButton: widget.showBackButton,
         searchCallBack: (String value) {
           if (value.isNotEmpty) {
             setState(() {
